@@ -1,3 +1,3 @@
-#Calculator based on Polish Reversed notation
+# Calculator based on Polish Reversed notation
 
 stack machine algorithm
