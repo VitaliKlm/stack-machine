@@ -19,9 +19,9 @@ function stackMachine(mathExpString = mathExpression){
             let operationResult = firstNum + secondNum
             stack.push(operationResult)
         } else if (recognizableElement === "-"){ // Have to add condition for 1 number in stack -> -Num!
-            let firstNum = stack.pop()
-            let secondNum = stack.pop()
-            let operationResult =  -firstNum + secondNum // Operation = last element in array ?Operator? penultimate element in array
+            let SubtrahendNum = stack.pop()
+            let MinuendNum = stack.pop()
+            let operationResult =  -SubtrahendNum + MinuendNum
             stack.push(operationResult)
         } else if (recognizableElement === "*"){
             let firstNum = stack.pop()
@@ -29,10 +29,15 @@ function stackMachine(mathExpString = mathExpression){
             let operationResult = firstNum * secondNum
             stack.push(operationResult)
         } else if (recognizableElement === "/"){
-            let firstNum = stack.pop()
-            let secondNum = stack.pop()
-            let operationResult = 1 / firstNum * secondNum
+            let dividerNum = stack.pop()
+            let dividendNum = stack.pop()
+            let operationResult = dividendNum / dividerNum
             stack.push(operationResult)
+        } else if (recognizableElement === "^"){
+            let exponentNum = stack.pop()
+            let raisedNum = stack.pop()
+            let exponentiationResult = raisedNum ** exponentNum
+            stack.push(exponentiationResult)
         } else {
             stack.push(Number(recognizableElement)) // string -> number
         }
@@ -40,8 +45,43 @@ function stackMachine(mathExpString = mathExpression){
     const MathExpResult = stack[0] //last element in stack -> result
     return MathExpResult
 }
-
 const consoleOutput = stackMachine()
 console.log(consoleOutput)
 alert(consoleOutput)
+
+
+
+/*//  shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation and converting them to postfix notation
+/!**
+ * Parsing and mathematical expressions specified in infix notation -> produce a postfix notation string Math expression in Reverse Polish notation
+ *
+ * @Convert
+ * @param {string} mathExpInfixString - Math expression in infix notation
+ * @return {string} mathExpPostfixString - Math expression in Postfix notation.                     ???{String} or {array}
+ *!/
+
+function shuntingYardAlgorithm (mathExpInfixString = mathExpression){
+    const operatorsStack = []
+    let outputString = [] // add symbols to the string (outputString = {string} + {string})
+                          // or add symbols in array and at the end convert it to string (outputString = {array}.push({string}))
+                          // for why? i can use array to calculate the result
+    const mathExpArray = mathExpString.split("")
+    for (let i = 0; i < mathExpArray.length; i++){
+        let recognizableElement = mathExpArray[i]
+        if (recognizableElement === "+"){
+            operatorsStack.push(recognizableElement)
+        } else if (recognizableElement === "-"){ // Have to add condition for 1 number in stack -> -Num!
+            operatorsStack.push(recognizableElement)
+        } else if (recognizableElement === "*"){
+            operatorsStack.push(recognizableElement)
+        } else if (recognizableElement === "/"){
+            operatorsStack.push(recognizableElement)
+        } else if (recognizableElement === "^"){
+            operatorsStack.push(recognizableElement)
+        } else {
+            outputString.push(Number(recognizableElement)) // string -> number
+        }
+
+}*/
+
 
