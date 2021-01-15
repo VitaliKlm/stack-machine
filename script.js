@@ -1,4 +1,4 @@
-let mathExpression = prompt('please enter a math expression in Reversed Polish notation! (Use "," to split the Operands and Operators')
+let mathExpression = prompt('please enter a math expression in Reversed Polish notation! (Use "," to split the Operands and Operators. Don`t separate unary minus from the number)')
 
 /**
  * Calculate Math expression in Reverse Polish notation
@@ -16,23 +16,23 @@ function stackMachine(mathExpString = mathExpression){
         if (recognizableElement === "+"){
             let firstNum = stack.pop() // remember syntax array.pop(), don't forget brackets
             let secondNum = stack.pop()
-            let operationResult = firstNum + secondNum
-            stack.push(operationResult)
-        } else if (recognizableElement === "-"){ // Have to add condition for 1 number in stack -> -Num!
+            let additionResult = firstNum + secondNum
+            stack.push(additionResult)
+        } else if (recognizableElement === "-"){ // for unary minus use a negative number without separator between operator and operand
             let SubtrahendNum = stack.pop()
             let MinuendNum = stack.pop()
-            let operationResult =  -SubtrahendNum + MinuendNum
-            stack.push(operationResult)
+            let subtractionResult = MinuendNum - SubtrahendNum
+            stack.push(subtractionResult)
         } else if (recognizableElement === "*"){
             let firstNum = stack.pop()
             let secondNum = stack.pop()
-            let operationResult = firstNum * secondNum
-            stack.push(operationResult)
+            let multiplicationResult = firstNum * secondNum
+            stack.push(multiplicationResult)
         } else if (recognizableElement === "/"){
             let dividerNum = stack.pop()
             let dividendNum = stack.pop()
-            let operationResult = dividendNum / dividerNum
-            stack.push(operationResult)
+            let divisionResult = dividendNum / dividerNum
+            stack.push(divisionResult)
         } else if (recognizableElement === "^"){
             let exponentNum = stack.pop()
             let raisedNum = stack.pop()
