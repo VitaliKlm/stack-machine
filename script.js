@@ -13,8 +13,8 @@ alert(consoleOutput)
 
 /**
  * Function use with Array.prototype.reduce()
- * Recognize element in array -> convert element to number && add element in stack ||
- * remove and return numbers from stack && make math operation with numbers && add result of calculations in stack
+ * Recognize element in array -> convert element to type 'number' && add number in the stack ||
+ * replace 2 numbers on the stack with the result of the math operation
  *
  * @Calculate
  * @param {array} stack - variable for accumulation
@@ -23,33 +23,19 @@ alert(consoleOutput)
  */
 
 function stackMachine (stack,recognizableElement) {
-    if (+recognizableElement || recognizableElement == 0) {     // if recognizableElement convertible to type Number, it is pushed to stack || Exception for 0
+
+    if (+recognizableElement || recognizableElement == 0) {     // if recognizableElement convertible to type 'number', it is pushed to stack || Exception for 0
         stack.push(+recognizableElement)                        // (convert to type Number)
     } else if (recognizableElement == "+") {
-        let firstNum = stack.pop()
-        let secondNum = stack.pop()
-        let additionResult = firstNum + secondNum
-        stack.push(additionResult)
+        calculationInStack(stack, addition)
     } else if (recognizableElement == "-") {
-        let SubtrahendNum = stack.pop()
-        let MinuendNum = stack.pop()
-        let subtractionResult = MinuendNum - SubtrahendNum
-        stack.push(subtractionResult)
+        calculationInStack(stack, subtraction)
     } else if (recognizableElement == "*") {
-        let firstNum = stack.pop()
-        let secondNum = stack.pop()
-        let multiplicationResult = firstNum * secondNum
-        stack.push(multiplicationResult)
+        calculationInStack(stack, multiplication)
     } else if (recognizableElement == "/") {
-        let dividerNum = stack.pop()
-        let dividendNum = stack.pop()
-        let divisionResult = dividendNum / dividerNum
-        stack.push(divisionResult)
+        calculationInStack(stack, division)
     } else if (recognizableElement == "^") {
-        let exponentNum = stack.pop()
-        let raisedNum = stack.pop()
-        let exponentiationResult = raisedNum ** exponentNum
-        stack.push(exponentiationResult)
+        calculationInStack(stack, exponentiation)
     } else {                                                //Break statement
         console.log ("Math Expression Input Error")
         stack = []
@@ -59,8 +45,41 @@ function stackMachine (stack,recognizableElement) {
     return stack
 }
 
+/**
+ * Remove and return numbers from stack && make math operation with numbers && add result of calculations in stack
+ *
+ * @Calculate
+ * @param {array} stack - variable for accumulation
+ * @param {function} operationFunction - the math operation function
+ * @return {number} operationResult - result of the math operation.
+ */
 
+function calculationInStack (stack, operationFunction) {
+    let firstNum = stack.pop()
+    let secondNum = stack.pop()
+    let operationResult = operationFunction(firstNum, secondNum)
+    stack.push(operationResult)
+}
 
+function addition (firstAddendNum, secondAddendNum) {
+    return firstAddendNum + secondAddendNum
+}
+
+function subtraction (subtrahendNum, minuendNum) {
+    return minuendNum - subtrahendNum
+}
+
+function multiplication (multiplicandNum, multiplierNum) {
+    return multiplicandNum * multiplierNum
+}
+
+function division (dividerNum, dividendNum) {
+    return dividendNum / dividerNum
+}
+
+function exponentiation (exponentNum, raisedNum) {
+    return raisedNum ** exponentNum
+}
 
 /*//  shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation and converting them to postfix notation
 /!**
