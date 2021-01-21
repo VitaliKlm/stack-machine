@@ -1,53 +1,64 @@
-let mathExpression = prompt('please enter a math expression in Reversed Polish notation! (Use "," to split the Operands and Operators. Don`t separate unary minus from the number)')
+// code simplification
 
-/**
- * Calculate Math expression in Reverse Polish notation
- *
- * @Calculate
- * @param {string} mathExpString - Math expression in Reverse Polish notation (numbers and operators separated by commas)
- * @return {number} MathExpResult - result of the Math operation.
- */
+const mathExpString = prompt('Please enter a math expression in Reversed Polish notation! ' +
+                                    '(Use " " to split the Operands and Operators. ')
 
-function stackMachine(mathExpString = mathExpression){
-    const stack = []
-    const mathExpArray = mathExpString.split(",")
-    for (let i = 0; i < mathExpArray.length; i++){
-        let recognizableElement = mathExpArray[i]
-        if (recognizableElement === "+"){
-            let firstNum = stack.pop() // remember syntax array.pop(), don't forget brackets
-            let secondNum = stack.pop()
-            let additionResult = firstNum + secondNum
-            stack.push(additionResult)
-        } else if (recognizableElement === "-"){ // for unary minus use a negative number without separator between operator and operand
-            let SubtrahendNum = stack.pop()
-            let MinuendNum = stack.pop()
-            let subtractionResult = MinuendNum - SubtrahendNum
-            stack.push(subtractionResult)
-        } else if (recognizableElement === "*"){
-            let firstNum = stack.pop()
-            let secondNum = stack.pop()
-            let multiplicationResult = firstNum * secondNum
-            stack.push(multiplicationResult)
-        } else if (recognizableElement === "/"){
-            let dividerNum = stack.pop()
-            let dividendNum = stack.pop()
-            let divisionResult = dividendNum / dividerNum
-            stack.push(divisionResult)
-        } else if (recognizableElement === "^"){
-            let exponentNum = stack.pop()
-            let raisedNum = stack.pop()
-            let exponentiationResult = raisedNum ** exponentNum
-            stack.push(exponentiationResult)
-        } else {
-            stack.push(Number(recognizableElement)) // string -> number
-        }
-    }
-    const MathExpResult = stack[0] //last element in stack -> result
-    return MathExpResult
-}
-const consoleOutput = stackMachine()
+const mathExpArray = mathExpString.split(" ")
+const mathExpResult = mathExpArray.reduce(stackMachine, [])       // stack reduce to one element
+
+const consoleOutput = mathExpResult[0]
 console.log(consoleOutput)
 alert(consoleOutput)
+
+
+/**
+ * Function use with Array.prototype.reduce()
+ * Recognize element in array -> convert element to number && add element in stack ||
+ * remove and return numbers from stack && make math operation with numbers && add result of calculations in stack
+ *
+ * @Calculate
+ * @param {array} stack - variable for accumulation
+ * @param {number|string} recognizableElement - element of the math expression in array
+ * @return {array} stack - result of the math operation.
+ */
+
+function stackMachine (stack,recognizableElement) {
+    if (+recognizableElement || recognizableElement == 0) {     // if recognizableElement convertible to type Number, it is pushed to stack || Exception for 0
+        stack.push(+recognizableElement)                        // (convert to type Number)
+    } else if (recognizableElement == "+") {
+        let firstNum = stack.pop()
+        let secondNum = stack.pop()
+        let additionResult = firstNum + secondNum
+        stack.push(additionResult)
+    } else if (recognizableElement == "-") {
+        let SubtrahendNum = stack.pop()
+        let MinuendNum = stack.pop()
+        let subtractionResult = MinuendNum - SubtrahendNum
+        stack.push(subtractionResult)
+    } else if (recognizableElement == "*") {
+        let firstNum = stack.pop()
+        let secondNum = stack.pop()
+        let multiplicationResult = firstNum * secondNum
+        stack.push(multiplicationResult)
+    } else if (recognizableElement == "/") {
+        let dividerNum = stack.pop()
+        let dividendNum = stack.pop()
+        let divisionResult = dividendNum / dividerNum
+        stack.push(divisionResult)
+    } else if (recognizableElement == "^") {
+        let exponentNum = stack.pop()
+        let raisedNum = stack.pop()
+        let exponentiationResult = raisedNum ** exponentNum
+        stack.push(exponentiationResult)
+    } else {                                                //Break statement
+        console.log ("Math Expression Input Error")
+        stack = []
+        return stack
+    }
+
+    return stack
+}
+
 
 
 
