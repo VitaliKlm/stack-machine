@@ -1,4 +1,4 @@
-/*// Working Code
+// Working Code
 
 const mathExpStringPostfix = prompt('Please enter a math expression in Reversed Polish notation! ' +
                                     '(Use " " to split the Operands and Operators. ')
@@ -11,7 +11,7 @@ console.log(consoleOutput)
 alert(consoleOutput)
 
 
-/!**
+/**
  * Function use with Array.prototype.reduce()
  * Recognize element in array -> convert element to type 'number' && add number in the stack ||
  * replace 2 numbers on the stack with the result of the math operation
@@ -20,7 +20,7 @@ alert(consoleOutput)
  * @param {array} stack - variable for accumulation
  * @param {number|string} recognizableElement - element of the math expression in array
  * @return {array} stack - result of the math operation.
- *!/
+ */
 
 function stackMachine (stack,recognizableElement) {
 
@@ -45,14 +45,14 @@ function stackMachine (stack,recognizableElement) {
     return stack
 }
 
-/!**
+/**
  * Remove and return numbers from stack && make math operation with numbers && add result of calculations in stack
  *
  * @Calculate
  * @param {array} stack - variable for accumulation
  * @param {function} operationFunction - the math operation function
  * @return {number} operationResult - result of the math operation.
- *!/
+ */
 
 function calculationInStack (stack, operationFunction) {
     let firstNum = stack.pop()
@@ -79,11 +79,11 @@ function division (dividerNum, dividendNum) {
 
 function exponentiation (exponentNum, raisedNum) {
     return raisedNum ** exponentNum
-}*/
+}
 
 
 
-// shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation
+/* // shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation
 // and converting them to postfix notation
 // Prototype!
 
@@ -131,4 +131,4 @@ function allStackToOutput(output) {          //useless -> delete?
 // chose different  realization method or
 // push 'element1,element2' -> toString -> Split toArray -> get [element1, element 2]             //unnessesary
 // use (array->[[sub array ... ] ... ] -> [ sub array eleents ... , ... ])
-// Array.prototype.flat() Yeeeah! it exist!                                                       //better choise
+// Array.prototype.flat() Yeeeah! it exist!                                                       //better choise */
