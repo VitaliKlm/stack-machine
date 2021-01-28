@@ -85,15 +85,16 @@ function exponentiation (exponentNum, raisedNum) {
 
 // shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation
 // and converting them to postfix notation
-// Prototype!
+// Working Prototype!
 
-let operatorStack = []
+let operatorStack = ['-', '-', '+']
 let InfixArray = [2, "-", 5, "+", 7]
-let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).concat(operatorStack.reverse())  //what method first? -> not matter
+let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())  //what method first? -> not matter
 
 // InfixArray.map(Sorting) -> create output array same size as input array
 // instead of the elements in the stack array, "undefined" elements are placed
 // .filter(removeUndefined) -> remove all "undefined" elements from the output array
+// .flat() -> use to extract subarrays -> (subarrays were used instead of single element to save array size while return several elements) 
 // .concat(stack) -> add stack array to output array
 // use array.reverse instead of arrayStart.push(arrayEnd.pop())
 
@@ -102,33 +103,43 @@ console.log(PostfixArray)
 
 // function for .map
 //if the function used with .map doesn't return an element during iteration-> the function return undefined
+
 function Sorting (item) {   
-    let output
+    let output = []
     if (+item || item == 0) {
         output = item
         return output
-    } else if (item == "+" || "-") {
-        operatorStack.push(item) // it just push all operators in operatorStack 
-        // should make function allStackToOutput(output) if operatorStack.lenght > 0
-    // } else if ((item == "*" || "/") ) {
-    //     //
-    } else {console.log("Input Error")}
+    } 
+    
+    if (operatorStack.length > 0) {
+
+        if (item == "+" || "-") {
+            output = allStackToOutput(output)
+            operatorStack.push(item)
+            return output
+        }  
+        // } else if ((item == "*" || "/") ) {  // next step! -> '*', '/', '^', '(', ')'
+        //     
+        else {console.log("Input Error")}
+
+    } else {operatorStack.push(item)}
 }
 
-// function for .filter          //
+// function for .filter          
 // may be senseless -> to delete undefined use .filter without func, but it may delete '0' number?
 function removeUndefined(item) {
     return (item != undefined)
 }
-// 
-function allStackToOutput(output) {          //useless -> delete?
+
+
+function allStackToOutput(output) {        
+    let ArrayInsteadElement = []
+
     for (; operatorStack.length > 0 ;) {
-        output.push(operatorStack.pop())
-        return output
+        ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+        console.log(ArrayInsteadElement)
+        output = ArrayInsteadElement       //!try to write a recursive expression!
     }
+
+    return output
 }
-// .map realization of shuntingYardAlgorithm problem -> inputArray (length = i) may returns outputArray (length = ++i) 
-// chose different  realization method or
-// push 'element1,element2' -> toString -> Split toArray -> get [element1, element 2]             //unnessesary
-// use (array->[[sub array ... ] ... ] -> [ sub array eleents ... , ... ])
-// Array.prototype.flat() Yeeeah! it exist!                                                       //better choise
