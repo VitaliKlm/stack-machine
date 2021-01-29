@@ -87,8 +87,9 @@ function exponentiation (exponentNum, raisedNum) {
 // and converting them to postfix notation
 // Working Prototype!
 
-let operatorStack = ['-', '-', '+']
-let InfixArray = [2, "-", 5, "+", 7]
+// Problem is different code style!!!
+let operatorStack = []
+let InfixArray = [2, "-", 3, "+", 4, "*", 5, "/", 6] 
 let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())  //what method first? -> not matter
 
 // InfixArray.map(Sorting) -> create output array same size as input array
@@ -114,13 +115,21 @@ function Sorting (item) {
     if (operatorStack.length > 0) {
 
         if (item == "+" || "-") {
-            output = allStackToOutput(output)
+            output = allStackToOutputSum(output)
             operatorStack.push(item)
             return output
-        }  
-        // } else if ((item == "*" || "/") ) {  // next step! -> '*', '/', '^', '(', ')'
-        //     
-        else {console.log("Input Error")}
+
+        // } else if ((item == "*" || item == "/") &&
+        //  (operatorStack.pop() == "*" || operatorStack.pop() == "/")) {
+        //     output = allStackToOutputMulti(output)
+        //     operatorStack.push(item)
+        //     return output
+        // } else if (item == "^") {
+        //         operatorStack.push(item)
+        //         output.push(nextitem)
+        //         output.push(stack.pop())
+
+        } else {console.log("Input Error")}
 
     } else {operatorStack.push(item)}
 }
@@ -132,7 +141,7 @@ function removeUndefined(item) {
 }
 
 
-function allStackToOutput(output) {        
+function allStackToOutputSum(output) {        
     let ArrayInsteadElement = []
 
     for (; operatorStack.length > 0 ;) {
@@ -140,6 +149,16 @@ function allStackToOutput(output) {
         console.log(ArrayInsteadElement)
         output = ArrayInsteadElement       //!try to write a recursive expression!
     }
-
     return output
 }
+
+// function allStackToOutputMulti(output) {        
+//     let ArrayInsteadElement = []
+
+//     for (; operatorStack.pop() == "*" || "/" ;) {
+//         ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+//         console.log(ArrayInsteadElement)
+//         output = ArrayInsteadElement
+//     }
+//     return output
+// }
