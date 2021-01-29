@@ -87,8 +87,11 @@ function exponentiation (exponentNum, raisedNum) {
 // and converting them to postfix notation
 // Working Prototype!
 
-let operatorStack = ['-', '-', '+']
-let InfixArray = [2, "-", 5, "+", 7]
+
+// Problem is different code style!!!
+// should make refactoring && make code DRYer!!!
+let operatorStack = []
+let InfixArray = [1, '+', 2, '*', 3, "^", 4, '/', 5, '-', 6] 
 let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())  //what method first? -> not matter
 
 // InfixArray.map(Sorting) -> create output array same size as input array
@@ -104,23 +107,35 @@ console.log(PostfixArray)
 // function for .map
 //if the function used with .map doesn't return an element during iteration-> the function return undefined
 
-function Sorting (item) {   
+function Sorting (item) { 
+
     let output = []
+
     if (+item || item == 0) {
+        
         output = item
+
+        if (operatorStack[operatorStack.length - 1] == "^") { //Ugly exponentation realization)
+            let ArrayInsteadElement = []
+            ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+            output = ArrayInsteadElement.concat(output).reverse()
+        }
         return output
     } 
     
     if (operatorStack.length > 0) {
-
-        if (item == "+" || "-") {
-            output = allStackToOutput(output)
+       
+        if ((item == "+") || (item == "-")) {  // fix the bug -> incorrect syntax of the conditions! 
+            output = allStackToOutputSum(output)
             operatorStack.push(item)
             return output
-        }  
-        // } else if ((item == "*" || "/") ) {  // next step! -> '*', '/', '^', '(', ')'
-        //     
-        else {console.log("Input Error")}
+
+        } else if (((item == "*") || (item == "/")) ) {
+            output = allStackToOutputMulti(output)  
+            operatorStack.push(item)
+            return output
+
+        } else {operatorStack.push(item)}
 
     } else {operatorStack.push(item)}
 }
@@ -132,14 +147,26 @@ function removeUndefined(item) {
 }
 
 
-function allStackToOutput(output) {        
-    let ArrayInsteadElement = []
+
+function allStackToOutputSum(output) {        
+    let ArrayInsteadElement = [] //create array because it may be several elements push in one .map iteration
 
     for (; operatorStack.length > 0 ;) {
         ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
-        console.log(ArrayInsteadElement)
-        output = ArrayInsteadElement       //!try to write a recursive expression!
+        output = ArrayInsteadElement       //!?try to write a recursive expression!?
     }
-
     return output
-}*/
+}
+
+// if the last element in operator stack is not a "/" || "*" 
+// -> function returns empty array -> []
+// it will be deletted with .flat() in the .map row
+function allStackToOutputMulti(output) {        
+    let ArrayInsteadElement = []
+
+    for (; ((operatorStack[operatorStack.length - 1] == "*") || (operatorStack[operatorStack.length - 1] == "/")) ;) {
+        ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+        output = ArrayInsteadElement
+    }
+    return output
+} */ 
