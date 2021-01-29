@@ -1,4 +1,4 @@
-/*// Working Code
+// Working Code
 
 const mathExpStringPostfix = prompt('Please enter a math expression in Reversed Polish notation! ' +
                                     '(Use " " to split the Operands and Operators. ')
@@ -11,7 +11,7 @@ console.log(consoleOutput)
 alert(consoleOutput)
 
 
-/!**
+/**
  * Function use with Array.prototype.reduce()
  * Recognize element in array -> convert element to type 'number' && add number in the stack ||
  * replace 2 numbers on the stack with the result of the math operation
@@ -20,7 +20,7 @@ alert(consoleOutput)
  * @param {array} stack - variable for accumulation
  * @param {number|string} recognizableElement - element of the math expression in array
  * @return {array} stack - result of the math operation.
- *!/
+ */
 
 function stackMachine (stack,recognizableElement) {
 
@@ -45,14 +45,14 @@ function stackMachine (stack,recognizableElement) {
     return stack
 }
 
-/!**
+/**
  * Remove and return numbers from stack && make math operation with numbers && add result of calculations in stack
  *
  * @Calculate
  * @param {array} stack - variable for accumulation
  * @param {function} operationFunction - the math operation function
  * @return {number} operationResult - result of the math operation.
- *!/
+ */
 
 function calculationInStack (stack, operationFunction) {
     let firstNum = stack.pop()
@@ -79,13 +79,14 @@ function division (dividerNum, dividendNum) {
 
 function exponentiation (exponentNum, raisedNum) {
     return raisedNum ** exponentNum
-}*/
+}
 
 
 
-// shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation
+/* // shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation
 // and converting them to postfix notation
 // Working Prototype!
+
 
 // Problem is different code style!!!
 // should make refactoring && make code DRYer!!!
@@ -146,6 +147,7 @@ function removeUndefined(item) {
 }
 
 
+
 function allStackToOutputSum(output) {        
     let ArrayInsteadElement = [] //create array because it may be several elements push in one .map iteration
 
@@ -167,4 +169,4 @@ function allStackToOutputMulti(output) {
         output = ArrayInsteadElement
     }
     return output
-}
+} */ 
