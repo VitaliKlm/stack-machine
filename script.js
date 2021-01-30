@@ -1,95 +1,186 @@
-// Working Code
+// stackMachineAlgorithm 
+// -> a method for parsing mathematical expressions
+// specified in postfix notation and
+// calculate those mathematical expressions
 
-const mathExpStringPostfix = prompt('Please enter a math expression in Reversed Polish notation! ' +
-                                    '(Use " " to split the Operands and Operators. ')
+/* DOCUMENTATION:
+_ALGORITHM_:
 
-const mathExpArray = mathExpStringPostfix.split(" ")
-const mathExpResult = mathExpArray.reduce(stackMachine, [])       // stack reduce to one element
+1. The input POSTFIX_EXPRESSION is processed one SYMBOL at a time
+2. SYMBOL is checked for CONDITIONS
+3. CONDITIONS pushes Numbers on STACK or operate with it
+4. STACK is reduced to one element
+5. ALGORITHM outputs RESULT of POSTFIX_EXPRESSION
 
-const consoleOutput = mathExpResult[0]
-console.log(consoleOutput)
-alert(consoleOutput)
+_PARAMETRES_:
 
+Operators {Array} - [i1 ... in] = ['+', '-', '*', '/', '^']
+POSTFIX_EXPRESSION {Array} - contains Numbers and Operators
+STACK {Array} - accumulate Numbers or results of Operations with them
 
-/**
- * Function use with Array.prototype.reduce()
- * Recognize element in array -> convert element to type 'number' && add number in the stack ||
- * replace 2 numbers on the stack with the result of the math operation
- *
- * @Calculate
- * @param {array} stack - variable for accumulation
- * @param {number|string} recognizableElement - element of the math expression in array
- * @return {array} stack - result of the math operation.
+_RETURNS_:
+
+RESULT of POSTFIX_EXPRESSION {Number} - STACK[0]
+
+_CONDITIONS_:
+
+If the SYMBOL is a Number {
+  it pushed to the STACK }
+
+If the SYMBOL == operator[i] {
+  function_0 }
+
+At the end of reading {
+  Return RESULT of the EXPRESSION = STACK[0] }
+
+_FUNCTIONS_:
+
+function_0 ( function_[i] ) {
+  Replace 2 numbers (num1, num2) on the STACK 
+  with function_[i] }
+
+function_[i] (num1, num2) {
+  return result of the math operation[i] with 2 nums }
  */
 
-function stackMachine (stack,recognizableElement) {
 
-    if (+recognizableElement || recognizableElement == 0) {     // if recognizableElement convertible to type 'number', it is pushed to stack || Exception for 0
-        stack.push(+recognizableElement)                        // (convert to type Number)
-    } else if (recognizableElement == "+") {
-        calculationInStack(stack, addition)
-    } else if (recognizableElement == "-") {
-        calculationInStack(stack, subtraction)
-    } else if (recognizableElement == "*") {
-        calculationInStack(stack, multiplication)
-    } else if (recognizableElement == "/") {
-        calculationInStack(stack, division)
-    } else if (recognizableElement == "^") {
-        calculationInStack(stack, exponentiation)
-    } else {                                                //Break statement
-        console.log ("Math Expression Input Error")
-        stack = []
-        return stack
-    }
+// // Working Code
 
-    return stack
-}
+// const mathExpStringPostfix = prompt('Please enter a math expression' +
+// ' in Reversed Polish notation! Use " " to split the Symbols. ')
 
-/**
- * Remove and return numbers from stack && make math operation with numbers && add result of calculations in stack
- *
- * @Calculate
- * @param {array} stack - variable for accumulation
- * @param {function} operationFunction - the math operation function
- * @return {number} operationResult - result of the math operation.
- */
+// const mathExpArray = mathExpStringPostfix.split(" ")
+// const mathExpResult = mathExpArray.reduce(stackMachine, [])
 
-function calculationInStack (stack, operationFunction) {
-    let firstNum = stack.pop()
-    let secondNum = stack.pop()
-    let operationResult = operationFunction(firstNum, secondNum)
-    stack.push(operationResult)
-}
-
-function addition (secondAddendNum, firstAddendNum) {
-    return firstAddendNum + secondAddendNum
-}
-
-function subtraction (subtrahendNum, minuendNum) {
-    return minuendNum - subtrahendNum
-}
-
-function multiplication (multiplierNum, multiplicandNum) {
-    return multiplicandNum * multiplierNum
-}
-
-function division (dividerNum, dividendNum) {
-    return dividendNum / dividerNum
-}
-
-function exponentiation (exponentNum, raisedNum) {
-    return raisedNum ** exponentNum
-}
+// const consoleOutput = mathExpResult[0]
+// console.log(consoleOutput)
+// alert(consoleOutput)
 
 
 
-/* // shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation
-// and converting them to postfix notation
+// /**
+//  * Function use with Array.prototype.reduce()
+//  * Recognize element in array -> add numbers in the stack ||
+//  * replace 2 numbers on the stack with the result of the math operation
+//  *
+//  * @Calculate
+//  * @param {array} stack - variable for accumulation
+//  * @param {number|string} recognizableElement - element of the math expression in array
+//  * @return {array} stack - result of the math operation.
+//  */
+
+// function stackMachine (stack,recognizableElement) {
+
+//     if ( (+recognizableElement) || (recognizableElement == 0) ) {  // if convertible to type Number || Exception for 0
+//         stack.push(+recognizableElement)                           // it is converted to type Number and pushed to stack
+//     } else if (recognizableElement == "+") {
+//         calculationInStack(stack, addition)
+//     } else if (recognizableElement == "-") {
+//         calculationInStack(stack, subtraction)
+//     } else if (recognizableElement == "*") {
+//         calculationInStack(stack, multiplication)
+//     } else if (recognizableElement == "/") {
+//         calculationInStack(stack, division)
+//     } else if (recognizableElement == "^") {
+//         calculationInStack(stack, exponentiation)
+//     } else {
+//         console.log ("Math Expression Input Error")  //Break statement
+//         stack = []
+//         return stack
+//     }
+
+//     return stack
+// }
+
+// /**
+//  * Remove and return numbers from stack && 
+//  * make math operation with numbers && 
+//  * add result of calculations in stack
+//  *
+//  * @Calculate
+//  * @param {array} stack - variable for accumulation
+//  * @param {function} operationFunction - the math operation function
+//  * @return {number} operationResult - result of the math operation.
+//  */
+
+// function calculationInStack (stack, operationFunction) {
+//     let firstNum = stack.pop()
+//     let secondNum = stack.pop()
+//     let operationResult = operationFunction(firstNum, secondNum)
+//     stack.push(operationResult)
+// }
+
+// function addition (secondAddendNum, firstAddendNum) {
+//     return firstAddendNum + secondAddendNum
+// }
+
+// function subtraction (subtrahendNum, minuendNum) {
+//     return minuendNum - subtrahendNum
+// }
+
+// function multiplication (multiplierNum, multiplicandNum) {
+//     return multiplicandNum * multiplierNum
+// }
+
+// function division (dividerNum, dividendNum) {
+//     return dividendNum / dividerNum
+// }
+
+// function exponentiation (exponentNum, raisedNum) {
+//     return raisedNum ** exponentNum
+// }
+
+
+
+
+// shuntingYardAlgorithm 
+// -> a method for parsing mathematical expressions
+// specified in infix notation and 
+// converting them to postfix notation
+
+/* DOCUMENTATION:
+
+// _ALGORITHM_:
+
+1. The input INFIX_EXPRESSION is processed one SYMBOL at a time
+2. SYMBOL is checked for CONDITIONS
+3. CONDITIONS pushes Number SYMBOL on OUTPUT or
+pushes Operator SYMBOL on OPERATOR_STACK and/or
+remove Operator(s) from OPERATOR_STACK to OUTPUT
+4. EXPRESSION is mapped(transformed) to OUTPUT array
+5. At the end of processing EXPRESSION { 
+     ALGORITHM concatenates OPERATOR_STACK to OUTPUT 
+     and returns the result as POSTFIX_EXPRESSION array }
+
+_PARAMETRES_:
+
+Operators {Array} - [i1 ... in] = ['+', '-', '*', '/', '^', '(', ')']
+INFIX_EXPRESSION {Array} - contains Numbers and Operators
+OPERATOR_STACK {Array} - accumulate less PRECEDENСE Operators
+OUTPUT {Array} - accumulate SYMBOLS in order of POSTFIX_EXPRESSION
+
+_RETURNS_:
+
+POSTFIX_EXPRESSION {Array}
+
+_CONDITIONS_:
+
+If the Operator's PRECEDENСE <= than PRECEDENСE of the 
+left associative Operators at the top of OPERATOR_STACK {
+  that Operators are removed from OPERATOR_STACK to the OUTPUT}
+At the end of reading EXPRESSION {
+  pop all Operators off the OPERATOR_STACK and onto the OUTPUT} 
+
+_FUNCTIONS_:
+
+
+*/
+
+
 // Working Prototype!
-
-
 // Problem is different code style!!!
 // should make refactoring && make code DRYer!!!
+
 let operatorStack = []
 let InfixArray = [1, '+', 2, '*', 3, "^", 4, '/', 5, '-', 6] 
 let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())  //what method first? -> not matter
@@ -169,4 +260,4 @@ function allStackToOutputMulti(output) {
         output = ArrayInsteadElement
     }
     return output
-} */ 
+} 
