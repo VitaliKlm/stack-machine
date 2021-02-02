@@ -1,6 +1,6 @@
 // stackMachineAlgorithm 
 // -> a method for parsing mathematical expressions
-// specified in postfix notation and
+// specified in postfix notation (RPN) and
 // calculate those mathematical expressions
 
 /* DOCUMENTATION:
@@ -8,14 +8,15 @@ _ALGORITHM_:
 
 1. The input POSTFIX_EXPRESSION is processed one SYMBOL at a time
 2. SYMBOL is checked for CONDITIONS
-3. CONDITIONS pushes Numbers on STACK or operate with it
+3. CONDITIONS pushes Number SYMBOL on STACK or
+uses Operator SYMBOL to operate with Numbers on STACK
 4. STACK is reduced to one element
-5. ALGORITHM outputs RESULT of POSTFIX_EXPRESSION
+5. ALGORITHM returns RESULT of POSTFIX_EXPRESSION
 
 _PARAMETRES_:
 
 Operators {Array} - [i1 ... in] = ['+', '-', '*', '/', '^']
-POSTFIX_EXPRESSION {Array} - contains Numbers and Operators
+POSTFIX_EXPRESSION {Array} - contains Numbers and Operators SYMBOLS
 STACK {Array} - accumulate Numbers or results of Operations with them
 
 _RETURNS_:
@@ -136,27 +137,33 @@ function_[i] (num1, num2) {
 // shuntingYardAlgorithm 
 // -> a method for parsing mathematical expressions
 // specified in infix notation and 
-// converting them to postfix notation
+// converting them to postfix notation (RPN)
 
 /* DOCUMENTATION:
 
-// _ALGORITHM_:
+_ALGORITHM_:
 
 1. The input INFIX_EXPRESSION is processed one SYMBOL at a time
 2. SYMBOL is checked for CONDITIONS
 3. CONDITIONS pushes Number SYMBOL on OUTPUT or
 pushes Operator SYMBOL on OPERATOR_STACK and/or
 remove Operator(s) from OPERATOR_STACK to OUTPUT
-4. EXPRESSION is mapped(transformed) to OUTPUT array
-5. At the end of processing EXPRESSION { 
-     ALGORITHM concatenates OPERATOR_STACK to OUTPUT 
-     and returns the result as POSTFIX_EXPRESSION array }
+4. INFIX_EXPRESSION is mapped(transformed) to OUTPUT array
+5. At the end of processing INFIX_EXPRESSION ALGORITHM 
+pop all Operators off the OPERATOR_STACK and onto the OUTPUT
+and returns the result as POSTFIX_EXPRESSION array
 
 _PARAMETRES_:
-
-Operators {Array} - [i1 ... in] = ['+', '-', '*', '/', '^', '(', ')']
-INFIX_EXPRESSION {Array} - contains Numbers and Operators
-OPERATOR_STACK {Array} - accumulate less PRECEDENСE Operators
+Operators {Array} - [i1 ... in] =
+[{name: '+', priority: '2'},
+ {name: '-', priority: '2'}, 
+ {name: '*', priority: '3'}, 
+ {name: '/', priority: '3'}, 
+ {name: '^', priority: '4'}, 
+ {name: '(', priority: '1'}, 
+ {name: ')', priority: '1'}]
+INFIX_EXPRESSION {Array} - contains Numbers and Operators SYMBOLS
+OPERATOR_STACK {Array} - accumulate operators with lower PRIORITY
 OUTPUT {Array} - accumulate SYMBOLS in order of POSTFIX_EXPRESSION
 
 _RETURNS_:
@@ -165,14 +172,31 @@ POSTFIX_EXPRESSION {Array}
 
 _CONDITIONS_:
 
-If the Operator's PRECEDENСE <= than PRECEDENСE of the 
+If the Operator's PRIORITY <= than PRIORITY of the 
 left associative Operators at the top of OPERATOR_STACK {
   that Operators are removed from OPERATOR_STACK to the OUTPUT}
-At the end of reading EXPRESSION {
+At the end of reading INFIX_EXPRESSION {
   pop all Operators off the OPERATOR_STACK and onto the OUTPUT} 
+
+If the SYMBOL is a Number {  // !write a filter function isNumber(SYMBOL)
+  it pushed to the OUTPUT }
+
+If the SYMBOL == Operator[i].name {
+  let END_Cicle_1 = true
+  Circle_1(REPEAT_Cicle_1) 
+    {function_checkPriority}
+  SYMBOL push to OPERATOR_STACK }
+
+At the end of reading {
+  pop all Operators off the OPERATOR_STACK and onto the OUTPUT
+  return OUTPUT }
 
 _FUNCTIONS_:
 
+function_checkPriority (  ) {
+  if SYMBOL_PRIORITY <= LAST_IN_OPERATOR_STACK_PRIORITY {
+    LAST_IN_OPERATOR_STACK is removed from OPERATOR_STACK to the OUTPUT } 
+} else REPEAT_Circle_1 = false
 
 */
 
@@ -180,13 +204,14 @@ _FUNCTIONS_:
 // Working Prototype!
 // Problem is different code style!!!
 // should make refactoring && make code DRYer!!!
+// DO it using OPERATORS [{name: ..., priority: ...} ... ] !!!
 
 let operatorStack = []
 let InfixArray = [1, '+', 2, '*', 3, "^", 4, '/', 5, '-', 6] 
 let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())  //what method first? -> not matter
 
 // InfixArray.map(Sorting) -> create output array same size as input array
-// instead of the elements in the stack array, "undefined" elements are placed
+// instead of the  elements in the stack array, "undefined" elements are placed
 // .filter(removeUndefined) -> remove all "undefined" elements from the output array
 // .flat() -> use to extract subarrays -> (subarrays were used instead of single element to save array size while return several elements) 
 // .concat(stack) -> add stack array to output array
