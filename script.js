@@ -172,12 +172,6 @@ POSTFIX_EXPRESSION {Array}
 
 _CONDITIONS_:
 
-If the Operator's PRIORITY <= than PRIORITY of the 
-left associative Operators at the top of OPERATOR_STACK {
-  that Operators are removed from OPERATOR_STACK to the OUTPUT}
-At the end of reading INFIX_EXPRESSION {
-  pop all Operators off the OPERATOR_STACK and onto the OUTPUT} 
-
 If the SYMBOL is a Number {  // !write a filter function isNumber(SYMBOL)
   it pushed to the OUTPUT }
 
@@ -187,7 +181,7 @@ If the SYMBOL == Operator[i].name {
     {function_checkPriority}
   SYMBOL push to OPERATOR_STACK }
 
-At the end of reading {
+At the end of reading INFIX_EXPRESSION {
   pop all Operators off the OPERATOR_STACK and onto the OUTPUT
   return OUTPUT }
 
@@ -197,18 +191,29 @@ function_checkPriority (  ) {
   if SYMBOL_PRIORITY <= LAST_IN_OPERATOR_STACK_PRIORITY {
     LAST_IN_OPERATOR_STACK is removed from OPERATOR_STACK to the OUTPUT } 
 } else REPEAT_Circle_1 = false
-
 */
 
 
 // Working Prototype!
 // Problem is different code style!!!
 // should make refactoring && make code DRYer!!!
-// DO it using OPERATORS [{name: ..., priority: ...} ... ] !!!
 
-let operatorStack = []
-let InfixArray = [1, '+', 2, '*', 3, "^", 4, '/', 5, '-', 6] 
-let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())  //what method first? -> not matter
+const Operators =
+[{name: '+', priority: 2},
+ {name: '-', priority: 2}, 
+ {name: '*', priority: 3}, 
+ {name: '/', priority: 3}, 
+ {name: '^', priority: 4}, 
+ {name: '(', priority: 1}, 
+ {name: ')', priority: 1}]
+
+ let operatorStack = []
+
+ let InfixArray = [1, '+', 2, '*', 3, "^", 4, '-', 5, '/', 6]
+
+ console.log(InfixArray)
+
+ let PostfixArray = InfixArray.map(operatorSorting).filter(removeUndefined).flat().concat(operatorStack.reverse())
 
 // InfixArray.map(Sorting) -> create output array same size as input array
 // instead of the  elements in the stack array, "undefined" elements are placed
@@ -223,66 +228,53 @@ console.log(PostfixArray)
 // function for .map
 //if the function used with .map doesn't return an element during iteration-> the function return undefined
 
-function Sorting (item) { 
+function operatorSorting(item) {
+  console.log('item = ' + item) //////////
+  if (+item || item == 0) {
+    output = item
+    console.log('output = ' + output) /////////
+    return output
+  } 
 
-    let output = []
+  if (operatorStack.length == 0) {  // for not to break code! prevents request let lastInStackPriority = ... when operatorStack is empty!
+    operatorStack.push(item)
+    console.log('стэк пустой')  //////////
+    return undefined
+  }
 
-    if (+item || item == 0) {
-        
-        output = item
+  const isItem = Operator => Operator.name == item
 
-        if (operatorStack[operatorStack.length - 1] == "^") { //Ugly exponentation realization)
-            let ArrayInsteadElement = []
-            ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
-            output = ArrayInsteadElement.concat(output).reverse()
-        }
-        return output
-    } 
-    
-    if (operatorStack.length > 0) {
-       
-        if ((item == "+") || (item == "-")) {  // fix the bug -> incorrect syntax of the conditions! 
-            output = allStackToOutputSum(output)
-            operatorStack.push(item)
-            return output
+  let itemPriority = Operators.find(isItem).priority
+  console.log('itemPriority = ' + itemPriority) /////////
 
-        } else if (((item == "*") || (item == "/")) ) {
-            output = allStackToOutputMulti(output)  
-            operatorStack.push(item)
-            return output
+  let lastInStack = operatorStack[operatorStack.length - 1]
+  
+  const islastInStack = Operator => Operator.name == lastInStack
 
-        } else {operatorStack.push(item)}
-
-    } else {operatorStack.push(item)}
+  let lastInStackPriority = Operators.find(islastInStack).priority   //write a function to make DRY
+  
+  if (itemPriority <= lastInStackPriority) {
+      
+    let ArrayInsteadElement = []
+    console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
+    for (; itemPriority <= (Operators.find(islastInStack).priority) && operatorStack.length != 0 ;) {  //write a function to make DRY
+      ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+      console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
+      output = ArrayInsteadElement
+    }
+    operatorStack.push(item)
+    console.log('output = ' + output) /////////
+    return output
+  }
+  
+  else {
+    operatorStack.push(item)
+    console.log('itemPriority > lastInStackPriority')  //////////
+    return undefined}
 }
 
 // function for .filter          
 // may be senseless -> to delete undefined use .filter without func, but it may delete '0' number?
 function removeUndefined(item) {
-    return (item != undefined)
+  return (item != undefined)
 }
-
-
-
-function allStackToOutputSum(output) {        
-    let ArrayInsteadElement = [] //create array because it may be several elements push in one .map iteration
-
-    for (; operatorStack.length > 0 ;) {
-        ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
-        output = ArrayInsteadElement       //!?try to write a recursive expression!?
-    }
-    return output
-}
-
-// if the last element in operator stack is not a "/" || "*" 
-// -> function returns empty array -> []
-// it will be deletted with .flat() in the .map row
-function allStackToOutputMulti(output) {        
-    let ArrayInsteadElement = []
-
-    for (; ((operatorStack[operatorStack.length - 1] == "*") || (operatorStack[operatorStack.length - 1] == "/")) ;) {
-        ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
-        output = ArrayInsteadElement
-    }
-    return output
-} 
