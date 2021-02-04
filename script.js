@@ -24,25 +24,24 @@ alert(consoleOutput)
 
 function stackMachine (stack,recognizableElement) {
 
-    if (+recognizableElement || recognizableElement == 0) {     // if recognizableElement convertible to type 'number', it is pushed to stack || Exception for 0
-        stack.push(+recognizableElement)                        // (convert to type Number)
-    } else if (recognizableElement == "+") {
-        calculationInStack(stack, addition)
-    } else if (recognizableElement == "-") {
-        calculationInStack(stack, subtraction)
-    } else if (recognizableElement == "*") {
-        calculationInStack(stack, multiplication)
-    } else if (recognizableElement == "/") {
-        calculationInStack(stack, division)
-    } else if (recognizableElement == "^") {
-        calculationInStack(stack, exponentiation)
-    } else {                                                //Break statement
-        console.log ("Math Expression Input Error")
-        stack = []
-        return stack
-    }
-
+  if (+recognizableElement || recognizableElement == 0) {     // if recognizableElement convertible to type 'number', it is pushed to stack || Exception for 0
+    stack.push(+recognizableElement)                        // (convert to type Number)
+  } else if (recognizableElement == "+") {
+    calculationInStack(stack, addition)
+  } else if (recognizableElement == "-") {
+    calculationInStack(stack, subtraction)
+  } else if (recognizableElement == "*") {
+    calculationInStack(stack, multiplication)
+  } else if (recognizableElement == "/") {
+    calculationInStack(stack, division)
+  } else if (recognizableElement == "^") {
+    calculationInStack(stack, exponentiation)
+  } else {                                                //Break statement
+    console.log ("Math Expression Input Error")
+    stack = []
     return stack
+  }
+  return stack
 }
 
 /**
@@ -55,41 +54,45 @@ function stackMachine (stack,recognizableElement) {
  */
 
 function calculationInStack (stack, operationFunction) {
-    let firstNum = stack.pop()
-    let secondNum = stack.pop()
-    let operationResult = operationFunction(firstNum, secondNum)
-    stack.push(operationResult)
+  let firstNum = stack.pop()
+  let secondNum = stack.pop()
+  let operationResult = operationFunction(firstNum, secondNum)
+  stack.push(operationResult)
 }
 
 function addition (secondAddendNum, firstAddendNum) {
-    return firstAddendNum + secondAddendNum
+  return firstAddendNum + secondAddendNum
 }
 
 function subtraction (subtrahendNum, minuendNum) {
-    return minuendNum - subtrahendNum
+  return minuendNum - subtrahendNum
 }
 
 function multiplication (multiplierNum, multiplicandNum) {
-    return multiplicandNum * multiplierNum
+  return multiplicandNum * multiplierNum
 }
 
 function division (dividerNum, dividendNum) {
-    return dividendNum / dividerNum
+  return dividendNum / dividerNum
 }
 
 function exponentiation (exponentNum, raisedNum) {
-    return raisedNum ** exponentNum
+  return raisedNum ** exponentNum
 }
 
 
 
 /* // shuntingYardAlgorithm () -> a method for parsing mathematical expressions specified in infix notation
 // and converting them to postfix notation
-// Working Prototype!
 
-
+// Working Prototype!!!
+// But not the best realization!!!
+// Conditions are manually registered and unclear !!!
 // Problem is different code style!!!
 // should make refactoring && make code DRYer!!!
+
+
+
 let operatorStack = []
 let InfixArray = [1, '+', 2, '*', 3, "^", 4, '/', 5, '-', 6] 
 let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())  //what method first? -> not matter
@@ -109,64 +112,60 @@ console.log(PostfixArray)
 
 function Sorting (item) { 
 
-    let output = []
+ let output = []
 
-    if (+item || item == 0) {
-        
-        output = item
-
-        if (operatorStack[operatorStack.length - 1] == "^") { //Ugly exponentation realization)
-            let ArrayInsteadElement = []
-            ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
-            output = ArrayInsteadElement.concat(output).reverse()
-        }
-        return output
-    } 
+ if (+item || item == 0) {
+     
+   output = item
+   if (operatorStack[operatorStack.length - 1] == "^") { //Ugly exponentation realization)
+     let ArrayInsteadElement = []
+     ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+     output = ArrayInsteadElement.concat(output).reverse()
+   }
+   return output
+  } 
+ 
+ if (operatorStack.length > 0) {
     
-    if (operatorStack.length > 0) {
-       
-        if ((item == "+") || (item == "-")) {  // fix the bug -> incorrect syntax of the conditions! 
-            output = allStackToOutputSum(output)
-            operatorStack.push(item)
-            return output
+   if ((item == "+") || (item == "-")) {  // fix the bug -> incorrect syntax of the conditions! 
+     output = allStackToOutputSum(output)
+     operatorStack.push(item)
+     return output
+   } else if (((item == "*") || (item == "/")) ) {
+     output = allStackToOutputMulti(output)  
+     operatorStack.push(item)
+     return output
+   } else { operatorStack.push(item) }
 
-        } else if (((item == "*") || (item == "/")) ) {
-            output = allStackToOutputMulti(output)  
-            operatorStack.push(item)
-            return output
-
-        } else {operatorStack.push(item)}
-
-    } else {operatorStack.push(item)}
+ } else { operatorStack.push(item) }
 }
 
 // function for .filter          
 // may be senseless -> to delete undefined use .filter without func, but it may delete '0' number?
 function removeUndefined(item) {
-    return (item != undefined)
+  return (item != undefined)
 }
 
 
 
 function allStackToOutputSum(output) {        
-    let ArrayInsteadElement = [] //create array because it may be several elements push in one .map iteration
-
-    for (; operatorStack.length > 0 ;) {
-        ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
-        output = ArrayInsteadElement       //!?try to write a recursive expression!?
-    }
-    return output
+  let ArrayInsteadElement = [] //create array because it may be several elements push in one .map iteration
+  for (; operatorStack.length > 0 ;) {
+    ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+    output = ArrayInsteadElement       //!?try to write a recursive expression!?
+  }
+  return output
 }
 
 // if the last element in operator stack is not a "/" || "*" 
 // -> function returns empty array -> []
 // it will be deletted with .flat() in the .map row
-function allStackToOutputMulti(output) {        
-    let ArrayInsteadElement = []
 
-    for (; ((operatorStack[operatorStack.length - 1] == "*") || (operatorStack[operatorStack.length - 1] == "/")) ;) {
-        ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
-        output = ArrayInsteadElement
-    }
-    return output
+function allStackToOutputMulti(output) {        
+  let ArrayInsteadElement = []
+  for (; ((operatorStack[operatorStack.length - 1] == "*") || (operatorStack[operatorStack.length - 1] == "/")) ;) {
+    ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
+    output = ArrayInsteadElement
+  }
+  return output
 } */ 
