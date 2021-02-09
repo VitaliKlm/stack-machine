@@ -207,13 +207,16 @@ const Operators =
  {name: '(', priority: 1}, 
  {name: ')', priority: 1}]
 
- let operatorStack = []
+let operatorStack = []
+let i = 0  ///////////// count of iterations
+let InfixArray = [1, '-', 2, '*', 3, "/", 4]  //Test 0
+// let InfixArray = [1, '-', 2, '*', 3, "/", 4]  //Test 1
+// let InfixArray = [1, '^', 2, '-', 3, "^", 4, '*', 5, '+', 6] //Test 2
+// let InfixArray = [1, '+', 2, '/', 3, "/", 4, '^', 5, '*', 6] //Test 3
+// let InfixArray = [1, '^', 2, '-', 3, "*", 4, '+', 5, '+', 6] //Test 4
+console.log(InfixArray) //////////////
 
- let InfixArray = [1, '+', 2, '*', 3, "^", 4, '-', 5, '/', 6]
-
- console.log(InfixArray)
-
- let PostfixArray = InfixArray.map(operatorSorting).filter(removeUndefined).flat().concat(operatorStack.reverse())
+let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())
 
 // InfixArray.map(Sorting) -> create output array same size as input array
 // instead of the  elements in the stack array, "undefined" elements are placed
@@ -224,57 +227,72 @@ const Operators =
 
 console.log(PostfixArray)
 
-
 // function for .map
 //if the function used with .map doesn't return an element during iteration-> the function return undefined
-
-function operatorSorting(item) {
+function Sorting(item) {
+  console.log('') //////////
+  console.log( 'Iteration №' + ++i) //////////
   console.log('item = ' + item) //////////
+  
   if (+item || item == 0) {
     output = item
     console.log('output = ' + output) /////////
     return output
   } 
-
   if (operatorStack.length == 0) {  // for not to break code! prevents request let lastInStackPriority = ... when operatorStack is empty!
     operatorStack.push(item)
-    console.log('стэк пустой')  //////////
+    console.log('stack was empty!')  //////////
+    console.log('operatorStack = ' + operatorStack) //////////
     return undefined
   }
-
+  //getItemPriority(item)
   const isItem = Operator => Operator.name == item
-
   let itemPriority = Operators.find(isItem).priority
   console.log('itemPriority = ' + itemPriority) /////////
-
   let lastInStack = operatorStack[operatorStack.length - 1]
-  
   const islastInStack = Operator => Operator.name == lastInStack
-
   let lastInStackPriority = Operators.find(islastInStack).priority   //write a function to make DRY
-  
+  console.log('lastInStackPriority = ' + lastInStackPriority) /////////
+  console.log("") /////
+  console.log("Loop") /////
+  console.log("") /////
+
   if (itemPriority <= lastInStackPriority) {
-      
     let ArrayInsteadElement = []
     console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
-    for (; itemPriority <= (Operators.find(islastInStack).priority) && operatorStack.length != 0 ;) {  //write a function to make DRY
+    
+    for (; itemPriority <= (Operators.find(islastInStack).priority);) {  //write a function to make DRY
+      console.log("itemPriority " + itemPriority) /////
+      console.log('operatorStack = ' + operatorStack) //////////
+      console.log("lastInStack = " + lastInStack) /////
       ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
       console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
-      output = ArrayInsteadElement
+      console.log("operatorStack = " + operatorStack) /////
+      if (operatorStack.length == 0) {
+        break
+      }
+      else lastInStack = operatorStack[operatorStack.length - 1]
     }
+
+    console.log("") /////
+    console.log("End Loop") /////
+    console.log("") /////
+    output = ArrayInsteadElement
     operatorStack.push(item)
     console.log('output = ' + output) /////////
+    console.log('operatorStack = ' + operatorStack) //////////
     return output
   }
   
   else {
     operatorStack.push(item)
     console.log('itemPriority > lastInStackPriority')  //////////
-    return undefined}
+    console.log('operatorStack = ' + operatorStack) //////////
+    return undefined
+  }
 }
 
-// function for .filter          
-// may be senseless -> to delete undefined use .filter without func, but it may delete '0' number?
+// function for .filter    
 function removeUndefined(item) {
   return (item != undefined)
 }
