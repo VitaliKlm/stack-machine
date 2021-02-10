@@ -247,11 +247,17 @@ function Sorting(item) {
   }
   //getItemPriority(item)
   const isItem = Operator => Operator.name == item
-  let itemPriority = Operators.find(isItem).priority
+  const getItemPriority = (Operator, searchCondition) => Operator.find(searchCondition).priority
+  const itemPriority = getItemPriority(Operators, isItem)
   console.log('itemPriority = ' + itemPriority) /////////
-  let lastInStack = operatorStack[operatorStack.length - 1]
-  const islastInStack = Operator => Operator.name == lastInStack
-  let lastInStackPriority = Operators.find(islastInStack).priority   //write a function to make DRY
+
+  const getLastInStack = stack => stack[stack.length - 1]
+  let lastInStack = getLastInStack(operatorStack)
+  console.log('lastInStack = ' + lastInStack) /////////
+
+  const isLastInStack = Operator => Operator.name == lastInStack
+  const getLastInStackPriority = (Operator, searchCondition) => Operator.find(searchCondition).priority
+  const lastInStackPriority = getLastInStackPriority(Operators, isLastInStack)   
   console.log('lastInStackPriority = ' + lastInStackPriority) /////////
   console.log("") /////
   console.log("Loop") /////
@@ -261,7 +267,7 @@ function Sorting(item) {
     let ArrayInsteadElement = []
     console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
     
-    for (; itemPriority <= (Operators.find(islastInStack).priority);) {  //write a function to make DRY
+    while ( itemPriority <= getLastInStackPriority(Operators, isLastInStack) ) {  //why i can't use lastInStackPriority here? may be because of isLastInStack use a variable
       console.log("itemPriority " + itemPriority) /////
       console.log('operatorStack = ' + operatorStack) //////////
       console.log("lastInStack = " + lastInStack) /////
@@ -271,7 +277,7 @@ function Sorting(item) {
       if (operatorStack.length == 0) {
         break
       }
-      else lastInStack = operatorStack[operatorStack.length - 1]
+      else lastInStack = getLastInStack(operatorStack)
     }
 
     console.log("") /////
