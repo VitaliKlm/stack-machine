@@ -48,9 +48,9 @@ function_[i] (num1, num2) {
 // // Working Code
 
 // const mathExpStringPostfix = prompt('Please enter a math expression' +
-// ' in Reversed Polish notation! Use " " to split the Symbols. ')
+// 'in Reversed Polish notation! Use " " to split the Symbols.')
 
-// const mathExpArray = mathExpStringPostfix.split(" ")
+// const mathExpArray = mathExpStringPostfix.split(' ')
 // const mathExpResult = mathExpArray.reduce(stackMachine, [])
 
 // const consoleOutput = mathExpResult[0]
@@ -74,18 +74,18 @@ function_[i] (num1, num2) {
 
 //     if ( (+recognizableElement) || (recognizableElement == 0) ) {  // if convertible to type Number || Exception for 0
 //         stack.push(+recognizableElement)                           // it is converted to type Number and pushed to stack
-//     } else if (recognizableElement == "+") {
+//     } else if (recognizableElement == '+') {
 //         calculationInStack(stack, addition)
-//     } else if (recognizableElement == "-") {
+//     } else if (recognizableElement == '-') {
 //         calculationInStack(stack, subtraction)
-//     } else if (recognizableElement == "*") {
+//     } else if (recognizableElement == '*') {
 //         calculationInStack(stack, multiplication)
-//     } else if (recognizableElement == "/") {
+//     } else if (recognizableElement == '/') {
 //         calculationInStack(stack, division)
-//     } else if (recognizableElement == "^") {
+//     } else if (recognizableElement == '^') {
 //         calculationInStack(stack, exponentiation)
 //     } else {
-//         console.log ("Math Expression Input Error")  //Break statement
+//         console.log ('Math Expression Input Error')  //Break statement
 //         stack = []
 //         return stack
 //     }
@@ -204,23 +204,23 @@ const Operators =
  {name: '*', priority: 3}, 
  {name: '/', priority: 3}, 
  {name: '^', priority: 4}, 
- {name: '(', priority: 1}, 
- {name: ')', priority: 1}]
+ {name: '(', priority: 1},  // is it an Operator???
+ {name: ')', priority: 1}]  // is it an Operator???
 
 let operatorStack = []
 let i = 0  ///////////// count of iterations
-let InfixArray = [1, '-', 2, '*', 3, "/", 4]  //Test 0
-// let InfixArray = [1, '-', 2, '*', 3, "/", 4]  //Test 1
-// let InfixArray = [1, '^', 2, '-', 3, "^", 4, '*', 5, '+', 6] //Test 2
-// let InfixArray = [1, '+', 2, '/', 3, "/", 4, '^', 5, '*', 6] //Test 3
-// let InfixArray = [1, '^', 2, '-', 3, "*", 4, '+', 5, '+', 6] //Test 4
+let InfixArray = [1, '-', 2, '*', '(', 3, '-', 4, ')', '+', 10, '/', 5]  //Test 0
+// let InfixArray = [1, '-', 2, '*', 3, '/', 4]  //Test 1
+// let InfixArray = [1, '^', 2, '-', 3, '^', 4, '*', 5, '+', 6] //Test 2
+// let InfixArray = [1, '+', 2, '/', 3, '/', 4, '^', 5, '*', 6] //Test 3
+// let InfixArray = [1, '^', 2, '-', 3, '*', 4, '+', 5, '+', 6] //Test 4
 console.log(InfixArray) //////////////
 
 let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())
 
 // InfixArray.map(Sorting) -> create output array same size as input array
-// instead of the  elements in the stack array, "undefined" elements are placed
-// .filter(removeUndefined) -> remove all "undefined" elements from the output array
+// instead of the  elements in the stack array, 'undefined' elements are placed
+// .filter(removeUndefined) -> remove all 'undefined' elements from the output array
 // .flat() -> use to extract subarrays -> (subarrays were used instead of single element to save array size while return several elements) 
 // .concat(stack) -> add stack array to output array
 // use array.reverse instead of arrayStart.push(arrayEnd.pop())
@@ -231,7 +231,7 @@ console.log(PostfixArray)
 //if the function used with .map doesn't return an element during iteration-> the function return undefined
 function Sorting(item) {
   console.log('') //////////
-  console.log( 'Iteration №' + ++i) //////////
+  console.log( 'Iteration №' + ++i ) //////////
   console.log('item = ' + item) //////////
   
   if (+item || item == 0) {
@@ -245,7 +245,7 @@ function Sorting(item) {
     console.log('operatorStack = ' + operatorStack) //////////
     return undefined
   }
-  //getItemPriority(item)
+ 
   const isItem = Operator => Operator.name == item
   const getItemPriority = (Operator, searchCondition) => Operator.find(searchCondition).priority
   const itemPriority = getItemPriority(Operators, isItem)
@@ -259,30 +259,50 @@ function Sorting(item) {
   const getLastInStackPriority = (Operator, searchCondition) => Operator.find(searchCondition).priority
   const lastInStackPriority = getLastInStackPriority(Operators, isLastInStack)   
   console.log('lastInStackPriority = ' + lastInStackPriority) /////////
-  console.log("") /////
-  console.log("Loop") /////
-  console.log("") /////
+  console.log('') /////
+  console.log('Loop') /////
+  console.log('') /////
+
+  if (item == '(') {
+    operatorStack.push(item)
+    console.log('output = ' + output) /////////
+    console.log('operatorStack = ' + operatorStack) //////////
+    return undefined
+  }
+
+  if (item == ')') {
+    let operatorsArrayInBrackets = []
+    while (lastInStack != '(') {
+      operatorsArrayInBrackets = operatorsArrayInBrackets.concat(operatorStack.pop())
+      lastInStack = getLastInStack(operatorStack)
+    }
+    operatorStack.pop() // delete '(' from stack
+    output = operatorsArrayInBrackets
+    return output
+  }
 
   if (itemPriority <= lastInStackPriority) {
     let ArrayInsteadElement = []
     console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
     
     while ( itemPriority <= getLastInStackPriority(Operators, isLastInStack) ) {  //why i can't use lastInStackPriority here? may be because of isLastInStack use a variable
-      console.log("itemPriority " + itemPriority) /////
+
+      console.log('itemPriority ' + itemPriority) /////
       console.log('operatorStack = ' + operatorStack) //////////
-      console.log("lastInStack = " + lastInStack) /////
+      console.log('lastInStack = ' + lastInStack) /////
       ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
       console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
-      console.log("operatorStack = " + operatorStack) /////
+      console.log('operatorStack = ' + operatorStack) /////
+
       if (operatorStack.length == 0) {
         break
       }
       else lastInStack = getLastInStack(operatorStack)
     }
 
-    console.log("") /////
-    console.log("End Loop") /////
-    console.log("") /////
+    console.log('') /////
+    console.log('End Loop') /////
+    console.log('') /////
     output = ArrayInsteadElement
     operatorStack.push(item)
     console.log('output = ' + output) /////////
