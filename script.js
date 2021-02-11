@@ -4,31 +4,32 @@
 // calculate those mathematical expressions
 
 /* DOCUMENTATION:
+
 _ALGORITHM_:
 
-1. The input POSTFIX_EXPRESSION is processed one SYMBOL at a time
-2. SYMBOL is checked for CONDITIONS
-3. CONDITIONS pushes Number SYMBOL on STACK or
-uses Operator SYMBOL to operate with Numbers on STACK
+1. The input POSTFIX_EXPRESSION is processed one ELEMENT at a time
+2. ELEMENT is checked for CONDITIONS
+3. CONDITIONS pushes Number ELEMENT on STACK or
+uses Operator ELEMENT to operate with Numbers on STACK
 4. STACK is reduced to one element
 5. ALGORITHM returns RESULT of POSTFIX_EXPRESSION
 
 _PARAMETRES_:
 
 Operators {Array} - [i1 ... in] = ['+', '-', '*', '/', '^']
-POSTFIX_EXPRESSION {Array} - contains Numbers and Operators SYMBOLS
+POSTFIX_EXPRESSION {Array} - contains Numbers and Operators ELEMENTS
 STACK {Array} - accumulate Numbers or results of Operations with them
 
 _RETURNS_:
 
-RESULT of POSTFIX_EXPRESSION {Number} - STACK[0]
+RESULT of POSTFIX_EXPRESSION {Number} = STACK[0]
 
 _CONDITIONS_:
 
-If the SYMBOL is a Number {
+If the ELEMENT is a Number {
   it pushed to the STACK }
 
-If the SYMBOL == operator[i] {
+If the ELEMENT == operator[i] {
   function_0 }
 
 At the end of reading {
@@ -47,51 +48,17 @@ function_[i] (num1, num2) {
 
 // // Working Code
 
-// const mathExpStringPostfix = prompt('Please enter a math expression' +
-// 'in Reversed Polish notation! Use " " to split the Symbols.')
+// const postfixExpString = prompt('Please enter a math expression' +
+// 'in Reversed Polish notation! Split the elements with spaces.')
 
-// const mathExpArray = mathExpStringPostfix.split(' ')
-// const mathExpResult = mathExpArray.reduce(stackMachine, [])
-
-// const consoleOutput = mathExpResult[0]
-// console.log(consoleOutput)
-// alert(consoleOutput)
+// const postfixExpArray = postfixExpString.split(' ')
 
 
-
-// /**
-//  * Function use with Array.prototype.reduce()
-//  * Recognize element in array -> add numbers in the stack ||
-//  * replace 2 numbers on the stack with the result of the math operation
-//  *
-//  * @Calculate
-//  * @param {array} stack - variable for accumulation
-//  * @param {number|string} recognizableElement - element of the math expression in array
-//  * @return {array} stack - result of the math operation.
-//  */
-
-// function stackMachine (stack,recognizableElement) {
-
-//     if ( (+recognizableElement) || (recognizableElement == 0) ) {  // if convertible to type Number || Exception for 0
-//         stack.push(+recognizableElement)                           // it is converted to type Number and pushed to stack
-//     } else if (recognizableElement == '+') {
-//         calculationInStack(stack, addition)
-//     } else if (recognizableElement == '-') {
-//         calculationInStack(stack, subtraction)
-//     } else if (recognizableElement == '*') {
-//         calculationInStack(stack, multiplication)
-//     } else if (recognizableElement == '/') {
-//         calculationInStack(stack, division)
-//     } else if (recognizableElement == '^') {
-//         calculationInStack(stack, exponentiation)
-//     } else {
-//         console.log ('Math Expression Input Error')  //Break statement
-//         stack = []
-//         return stack
-//     }
-
-//     return stack
-// }
+// const addition = (Num1, Num2) => Num2 + Num1
+// const subtraction = (Num1, Num2) => Num2 - Num1
+// const multiplication = (Num1, Num2) => Num2 * Num1
+// const division = (Num1, Num2) => Num2 / Num1
+// const exponentiation = (Num1, Num2) => Num2 ** Num1
 
 // /**
 //  * Remove and return numbers from stack && 
@@ -104,33 +71,51 @@ function_[i] (num1, num2) {
 //  * @return {number} operationResult - result of the math operation.
 //  */
 
-// function calculationInStack (stack, operationFunction) {
-//     let firstNum = stack.pop()
-//     let secondNum = stack.pop()
-//     let operationResult = operationFunction(firstNum, secondNum)
+// const calculationInStack = (stack, operationFunction) => {
+//     let Num1 = stack.pop()
+//     let Num2 = stack.pop()
+//     let operationResult = operationFunction(Num1, Num2)
 //     stack.push(operationResult)
 // }
 
-// function addition (secondAddendNum, firstAddendNum) {
-//     return firstAddendNum + secondAddendNum
+// /**
+//  * Function use with Array.prototype.reduce()
+//  * Recognize element in array -> add numbers in the stack ||
+//  * replace 2 numbers on the stack with the result of the math operation
+//  *
+//  * @Calculate
+//  * @param {array} stack - variable for accumulation
+//  * @param {number|string} element - recognizable element in array
+//  * @return {array} stack - result of the math operation.
+//  */
+
+// const stackMachine = (stack, element) => {
+
+//     if ( (+element) || (element == 0) ) {     // if convertible to type Number || Exception for 0
+//         stack.push(+element)                  // not ok!?
+//     } else if (element == '+') {
+//         calculationInStack(stack, addition)
+//     } else if (element == '-') {
+//         calculationInStack(stack, subtraction)
+//     } else if (element == '*') {
+//         calculationInStack(stack, multiplication)
+//     } else if (element == '/') {
+//         calculationInStack(stack, division)
+//     } else if (element == '^') {
+//         calculationInStack(stack, exponentiation)
+//     } else {
+//         console.log ('Math Expression Input Error!')
+//     }
+//
+//     return stack
 // }
 
-// function subtraction (subtrahendNum, minuendNum) {
-//     return minuendNum - subtrahendNum
-// }
 
-// function multiplication (multiplierNum, multiplicandNum) {
-//     return multiplicandNum * multiplierNum
-// }
+// const postfixExpResult = postfixExpArray.reduce(stackMachine, [])
 
-// function division (dividerNum, dividendNum) {
-//     return dividendNum / dividerNum
-// }
-
-// function exponentiation (exponentNum, raisedNum) {
-//     return raisedNum ** exponentNum
-// }
-
+// const consoleOutput = postfixExpResult[0]
+// console.log(consoleOutput)
+// alert(consoleOutput)
 
 
 
@@ -143,10 +128,10 @@ function_[i] (num1, num2) {
 
 _ALGORITHM_:
 
-1. The input INFIX_EXPRESSION is processed one SYMBOL at a time
-2. SYMBOL is checked for CONDITIONS
-3. CONDITIONS pushes Number SYMBOL on OUTPUT or
-pushes Operator SYMBOL on OPERATOR_STACK and/or
+1. The input INFIX_EXPRESSION is processed one ELEMENT at a time
+2. ELEMENT is checked for CONDITIONS
+3. CONDITIONS pushes Number ELEMENT on OUTPUT or
+pushes Operator ELEMENT on OPERATOR_STACK and/or
 remove Operator(s) from OPERATOR_STACK to OUTPUT
 4. INFIX_EXPRESSION is mapped(transformed) to OUTPUT array
 5. At the end of processing INFIX_EXPRESSION ALGORITHM 
@@ -160,11 +145,11 @@ Operators {Array} - [i1 ... in] =
  {name: '*', priority: '3'}, 
  {name: '/', priority: '3'}, 
  {name: '^', priority: '4'}, 
- {name: '(', priority: '1'}, 
- {name: ')', priority: '1'}]
-INFIX_EXPRESSION {Array} - contains Numbers and Operators SYMBOLS
+ {name: '(', priority: '1'},   //is it an Operator !?
+ {name: ')', priority: '1'}]   //is it an Operator !?
+INFIX_EXPRESSION {Array} - contains Numbers and Operators ELEMENTS
 OPERATOR_STACK {Array} - accumulate operators with lower PRIORITY
-OUTPUT {Array} - accumulate SYMBOLS in order of POSTFIX_EXPRESSION
+OUTPUT {Array} - accumulate ELEMENTS in order of POSTFIX_EXPRESSION
 
 _RETURNS_:
 
@@ -172,23 +157,35 @@ POSTFIX_EXPRESSION {Array}
 
 _CONDITIONS_:
 
-If the SYMBOL is a Number {  // !write a filter function isNumber(SYMBOL)
-  it pushed to the OUTPUT }
-
-If the SYMBOL == Operator[i].name {
+If the ELEMENT is a Number {  // write a filter function isNumber(ELEMENT) !?
+  it pushed to the OUTPUT 
+}
+If the ELEMENT is '(' {
+  ELEMENT push to OPERATOR_STACK
+  return no output
+}
+If the ELEMENT is ')' {
+  pop all Operators off the OPERATOR_STACK and onto the OUTPUT until '('
+  delete '(' from OPERATOR_STACK
+  return OUTPUT
+}
+If the ELEMENT == Operator[i].name {
   let END_Cicle_1 = true
   Circle_1(REPEAT_Cicle_1) 
     {function_checkPriority}
-  SYMBOL push to OPERATOR_STACK }
+  ELEMENT push to OPERATOR_STACK }
 
 At the end of reading INFIX_EXPRESSION {
   pop all Operators off the OPERATOR_STACK and onto the OUTPUT
-  return OUTPUT }
+  return OUTPUT 
+}
 
 _FUNCTIONS_:
 
+getelement
+
 function_checkPriority (  ) {
-  if SYMBOL_PRIORITY <= LAST_IN_OPERATOR_STACK_PRIORITY {
+  if ELEMENT_PRIORITY <= LAST_IN_OPERATOR_STACK_PRIORITY {
     LAST_IN_OPERATOR_STACK is removed from OPERATOR_STACK to the OUTPUT } 
 } else REPEAT_Circle_1 = false
 */
@@ -209,47 +206,38 @@ const Operators =
 
 let operatorStack = []
 let i = 0  ///////////// count of iterations
-let InfixArray = [1, '-', 2, '*', '(', 3, '-', 4, ')', '+', 10, '/', 5]  //Test 0
-// let InfixArray = [1, '-', 2, '*', 3, '/', 4]  //Test 1
-// let InfixArray = [1, '^', 2, '-', 3, '^', 4, '*', 5, '+', 6] //Test 2
-// let InfixArray = [1, '+', 2, '/', 3, '/', 4, '^', 5, '*', 6] //Test 3
-// let InfixArray = [1, '^', 2, '-', 3, '*', 4, '+', 5, '+', 6] //Test 4
-console.log(InfixArray) //////////////
 
-let PostfixArray = InfixArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())
-
-// InfixArray.map(Sorting) -> create output array same size as input array
-// instead of the  elements in the stack array, 'undefined' elements are placed
-// .filter(removeUndefined) -> remove all 'undefined' elements from the output array
-// .flat() -> use to extract subarrays -> (subarrays were used instead of single element to save array size while return several elements) 
-// .concat(stack) -> add stack array to output array
-// use array.reverse instead of arrayStart.push(arrayEnd.pop())
-
-console.log(PostfixArray)
+// let infixExpArray = [1, '-', 2, '*', '(', 3, '-', 4, ')', '+', 10, '/', 5]  //Test 0
+// let infixExpArray = [1, '-', 2, '*', 3, '/', 4]  //Test 1
+// let infixExpArray = [1, '^', 2, '-', 3, '^', 4, '*', 5, '+', 6] //Test 2
+// let infixExpArray = [1, '+', 2, '/', 3, '/', 4, '^', 5, '*', 6] //Test 3
+// let infixExpArray = [1, '^', 2, '-', 3, '*', 4, '+', 5, '+', 6] //Test 4
+let infixExpArray = ['(', '(', '(', 2, '-', 3, ')', '*', '(', 3, '+', 2, '*', 4, ')', ')', '-', '(', 6, '-', 1, '*', 2, '^', 3, '/', 4, ')', ')'] //Test 5
+console.log(infixExpArray) //////////////
 
 // function for .map
 //if the function used with .map doesn't return an element during iteration-> the function return undefined
-function Sorting(item) {
+const Sorting = (element) => {
   console.log('') //////////
   console.log( 'Iteration №' + ++i ) //////////
-  console.log('item = ' + item) //////////
+  console.log('element = ' + element) //////////
   
-  if (+item || item == 0) {
-    output = item
+  if (+element || element == 0) {
+    output = element
     console.log('output = ' + output) /////////
     return output
   } 
   if (operatorStack.length == 0) {  // for not to break code! prevents request let lastInStackPriority = ... when operatorStack is empty!
-    operatorStack.push(item)
+    operatorStack.push(element)
     console.log('stack was empty!')  //////////
     console.log('operatorStack = ' + operatorStack) //////////
     return undefined
   }
  
-  const isItem = Operator => Operator.name == item
-  const getItemPriority = (Operator, searchCondition) => Operator.find(searchCondition).priority
-  const itemPriority = getItemPriority(Operators, isItem)
-  console.log('itemPriority = ' + itemPriority) /////////
+  const iselement = Operator => Operator.name == element
+  const getelementPriority = (Operator, searchCondition) => Operator.find(searchCondition).priority
+  const elementPriority = getelementPriority(Operators, iselement)
+  console.log('elementPriority = ' + elementPriority) /////////
 
   const getLastInStack = stack => stack[stack.length - 1]
   let lastInStack = getLastInStack(operatorStack)
@@ -263,14 +251,13 @@ function Sorting(item) {
   console.log('Loop') /////
   console.log('') /////
 
-  if (item == '(') {
-    operatorStack.push(item)
-    console.log('output = ' + output) /////////
+  if (element == '(') {
+    operatorStack.push(element)
     console.log('operatorStack = ' + operatorStack) //////////
     return undefined
   }
 
-  if (item == ')') {
+  if (element == ')') {
     let operatorsArrayInBrackets = []
     while (lastInStack != '(') {
       operatorsArrayInBrackets = operatorsArrayInBrackets.concat(operatorStack.pop())
@@ -281,13 +268,13 @@ function Sorting(item) {
     return output
   }
 
-  if (itemPriority <= lastInStackPriority) {
+  if (elementPriority <= lastInStackPriority) {
     let ArrayInsteadElement = []
     console.log('ArrayInsteadElement = ' + ArrayInsteadElement) /////////
     
-    while ( itemPriority <= getLastInStackPriority(Operators, isLastInStack) ) {  //why i can't use lastInStackPriority here? may be because of isLastInStack use a variable
+    while ( elementPriority <= getLastInStackPriority(Operators, isLastInStack) ) {  //why i can't use lastInStackPriority here? may be because of isLastInStack use a variable
 
-      console.log('itemPriority ' + itemPriority) /////
+      console.log('elementPriority ' + elementPriority) /////
       console.log('operatorStack = ' + operatorStack) //////////
       console.log('lastInStack = ' + lastInStack) /////
       ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
@@ -304,21 +291,32 @@ function Sorting(item) {
     console.log('End Loop') /////
     console.log('') /////
     output = ArrayInsteadElement
-    operatorStack.push(item)
+    operatorStack.push(element)
     console.log('output = ' + output) /////////
     console.log('operatorStack = ' + operatorStack) //////////
     return output
   }
   
   else {
-    operatorStack.push(item)
-    console.log('itemPriority > lastInStackPriority')  //////////
+    operatorStack.push(element)
+    console.log('elementPriority > lastInStackPriority')  //////////
     console.log('operatorStack = ' + operatorStack) //////////
     return undefined
   }
 }
 
 // function for .filter    
-function removeUndefined(item) {
-  return (item != undefined)
-}
+const removeUndefined = element => element != undefined
+
+
+let postfixExpArray = infixExpArray.map(Sorting).filter(removeUndefined).flat().concat(operatorStack.reverse())
+
+// infixExpArray.map(Sorting) -> create output array same size as input array
+// instead of the  elements in the stack array, 'undefined' elements are placed
+// .filter(removeUndefined) -> remove all 'undefined' elements from the output array
+// .flat() -> use to extract subarrays -> (subarrays were used instead of single element to save array size while return several elements) 
+// .concat(stack) -> add stack array to output array
+// use array.reverse instead of arrayStart.push(arrayEnd.pop())
+
+console.log(postfixExpArray)
+
