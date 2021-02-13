@@ -267,7 +267,7 @@ const Sorting = element => {
   //TODO FIX: not DRY!
   const isElement = Operator => Operator.name == element
   const getElementPriority = (Operator, searchCondition) => {
-    Operator.find(searchCondition).priority
+    return Operator.find(searchCondition).priority
   }
   const elementPriority = getElementPriority(Operators, isElement)
   
@@ -283,7 +283,7 @@ const Sorting = element => {
   //TODO FIX: not DRY!
   const isLastInStack = Operator => Operator.name == lastInStack
   const getLastInStackPriority = (Operator, searchCondition) => {
-    Operator.find(searchCondition).priority
+    return Operator.find(searchCondition).priority
   }
   const lastInStackPriority = getLastInStackPriority(Operators, isLastInStack)
   
