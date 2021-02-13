@@ -52,7 +52,7 @@ function_[i] (num1, num2) {
 // Working Code:
 
 // const postfixExpString = prompt('Please enter a math expression' +
-// 'in Reversed Polish notation! Split the elements with spaces.')
+// 'in Reversed Polish (postfix) notation! Split the elements with spaces.')
 // const postfixExpArray = postfixExpString.split(' ')
 
 
@@ -110,6 +110,7 @@ const stackMachine = (stack, element) => {
   }
   return stack
 }
+
 
 /** postfixExpArray.reduce -> reduce postfixExpArray to one element
  * using stackMachine algorithm function
@@ -205,23 +206,20 @@ const Operators =
  {name: '/', priority: 3}, 
  {name: '^', priority: 4}, 
  {name: '(', priority: 1},
- {name: ')', priority: 1}]
+ {name: ')', priority: 1}
+]
 
-let operatorStack = []
+let operatorStack = [] 
 
-// count of iterations
-let i = 0  
+const infixExpString = prompt('Please enter a math expression' +
+'in Infix notation! Split the elements with spaces.')
+const infixExpArray = infixExpString.split(' ')
 
-// Tests
-// let infixExpArray = [1, '-', 2, '*', '(', 3, '-', 4, ')', '+', 5, '/', 6]
-// let infixExpArray = [0, '-', 1, '*', 2, '/', 3, '^', 4, '*', 5, '+', 6]
-// let infixExpArray = [1, '^', 2, '-', 3, '^', 4, '*', 5, '+', 6]
-// let infixExpArray = [1, '+', 2, '/', 3, '/', 4, '^', 5, '*', 6]
-// let infixExpArray = [1, '^', 2, '-', 3, '*', 4, '+', 5, '+', 6]
-let infixExpArray = ['(', '(', '(', 2, '-', 3, ')', '*', '(', 3, '+', 2, '*',
- 4, ')', ')', '-', '(', 6, '-', 1, '*', 2, '^', 3, '/', 4, ')', ')']
+// TODO FIXME: algorithm don't work!
+// const infixExpString = prompt('Please enter a math expression' +
+// 'in Infix notation! Split the elements with spaces.')
+// const infixExpArray = infixExpString.split(' ')
 
- // CONSOLE TEST!!!
 console.log(infixExpArray)
 
 
@@ -237,140 +235,77 @@ console.log(infixExpArray)
  * @return {array} output - elements of transformed array in order
 */
 const Sorting = element => {
-  
- // CONSOLE TEST!!!
-  console.log('')
-  console.log( 'Iteration №' + ++i )
-  console.log('element = ' + element)
-  
+
   // TODO FIXME: if convertible to type Number || Exception for 0 -> rewrite!?
   if (+element || element == 0) {
-    output = element
-    
- // CONSOLE TEST!!!
-    console.log('output = ' + output)
-
+    output = +element
     return output
   } 
 
   // prevent request of lastInStackPriority when operatorStack is empty!
   if (operatorStack.length == 0) {
     operatorStack.push(element)
-    
- // CONSOLE TEST!!!
-    console.log('operatorStack was empty!')
-    console.log('operatorStack = ' + operatorStack)
-
     return undefined
   }
  
-  //TODO FIX: not DRY!
-  const isElement = Operator => Operator.name == element
-  const getElementPriority = (Operator, searchCondition) => {
-    Operator.find(searchCondition).priority
+  // TODO: why Operator? strange param naming, Array is better
+  const getItemPriority = (Operator, item) => {
+    const search = Operator => Operator.name == item
+    return Operator.find(search).priority
   }
-  const elementPriority = getElementPriority(Operators, isElement)
-  
- // CONSOLE TEST!!!
-  console.log('elementPriority = ' + elementPriority)
 
   const getLastInStack = stack => stack[stack.length - 1]
   let lastInStack = getLastInStack(operatorStack)
-  
- // CONSOLE TEST!!!
-  console.log('lastInStack = ' + lastInStack)
 
-  //TODO FIX: not DRY!
-  const isLastInStack = Operator => Operator.name == lastInStack
-  const getLastInStackPriority = (Operator, searchCondition) => {
-    Operator.find(searchCondition).priority
-  }
-  const lastInStackPriority = getLastInStackPriority(Operators, isLastInStack)
+  const lastInStackPriority = getItemPriority(Operators, lastInStack)
+  const elementPriority = getItemPriority(Operators, element)
   
- // CONSOLE TEST!!!
-  console.log('lastInStackPriority = ' + lastInStackPriority)
-  console.log('')
-  console.log('Loop')
-  console.log('')
-
-  // unused function!
+  // TODO FIXME: unused function!
   // const arrayExpansion = (arrayToExpand, arrayToCut) => {
   //   arrayToExpand = arrayToExpand.concat(arrayToCut.pop())
   // }
 
   if (element == '(') {
     operatorStack.push(element)
-    
- // CONSOLE TEST!!!
-    console.log('operatorStack = ' + operatorStack)
-
     return undefined
   }
 
   if (element == ')') {
-    let operatorsArrayInBrackets = []
+    let operatorsInBrackets = []
     while (lastInStack != '(') {
 
-      // TODO FIXME: too long repetitive construction!
-      operatorsArrayInBrackets = operatorsArrayInBrackets.concat(operatorStack.pop())
+      // TODO FIXME: not DRY!
+      operatorsInBrackets = operatorsInBrackets.concat(operatorStack.pop())
       lastInStack = getLastInStack(operatorStack)
     }
 
     // delete '(' from stack
     operatorStack.pop() 
-    output = operatorsArrayInBrackets
+    output = operatorsInBrackets
     return output
   }
 
   if (elementPriority <= lastInStackPriority) {
     let ArrayInsteadElement = []
-    
- // CONSOLE TEST!!!
-    console.log('ArrayInsteadElement = ' + ArrayInsteadElement)
-    
-    // TODO FIXME: can't use lastInStackPriority here, too long line
-    while ( elementPriority <= getLastInStackPriority(Operators, isLastInStack) ) {
 
- // CONSOLE TEST!!!
-      console.log('elementPriority ' + elementPriority)
-      console.log('operatorStack = ' + operatorStack)
-      console.log('lastInStack = ' + lastInStack)
-  
-      // TODO FIXME: too long repetitive construction!
+    while ( elementPriority <= getItemPriority(Operators, lastInStack) ) {
+
+      // TODO FIXME: not DRY!
       ArrayInsteadElement = ArrayInsteadElement.concat(operatorStack.pop())
       
- // CONSOLE TEST!!!
-      console.log('ArrayInsteadElement = ' + ArrayInsteadElement)
-      console.log('operatorStack = ' + operatorStack)
-
       if (operatorStack.length == 0) {
         break
       }
       else lastInStack = getLastInStack(operatorStack)
     }
 
- // CONSOLE TEST!!!
-    console.log('')
-    console.log('End Loop')
-    console.log('')
-
     output = ArrayInsteadElement
-    operatorStack.push(element)
-    
- // CONSOLE TEST!!!
-    console.log('output = ' + output)
-    console.log('operatorStack = ' + operatorStack)
-
+    operatorStack.push(element) 
     return output
   }
   
   else {
     operatorStack.push(element)
-    
- // CONSOLE TEST!!!
-    console.log('elementPriority > lastInStackPriority')
-    console.log('operatorStack = ' + operatorStack)
-
     return undefined
   }
 }
@@ -378,12 +313,14 @@ const Sorting = element => {
 // function for Array.prototype.filter
 const removeUndefined = element => element != undefined
 
+
 /** infixExpArray.map(Sorting) -> create output array same size as input array
- * instead of the  elements in the operatorStack array, 'undefined' elements are placed
- * .filter(removeUndefined) -> remove all 'undefined' elements from the output array
- * .flat() -> use to extract subarrays -> (subarrays were used instead of single element to save array size while return several elements) 
- * .concat(operatorStack) -> add operatorStack array to output array
- * use array.reverse instead of arrayStart.push(arrayEnd.pop())
+ * with 'undefined' elements instead of the elements in the operatorStack array
+ * .filter(removeUndefined) -> remove all 'undefined' from the output array
+ * .flat() -> use to extract subarrays were used in output array instead of 
+ * single element to save input array size while return several elements 
+ * .concat(operatorStack.reverse) -> add operatorStack array to output array
+ * use operatorStack.reverse instead of .push(operatorStack.pop()) repetition
 */
 let postfixExpArray = infixExpArray.map(Sorting)
 .filter(removeUndefined)
