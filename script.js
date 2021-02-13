@@ -328,7 +328,7 @@ const Sorting = element => {
  // CONSOLE TEST!!!
     console.log('ArrayInsteadElement = ' + ArrayInsteadElement)
     
-    // TODO FIXME: why i can't use lastInStackPriority here? may be because of isLastInStack use a variable
+    // TODO FIXME: can't use lastInStackPriority here, too long line
     while ( elementPriority <= getLastInStackPriority(Operators, isLastInStack) ) {
 
  // CONSOLE TEST!!!
