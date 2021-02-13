@@ -215,11 +215,6 @@ const infixExpString = prompt('Please enter a math expression' +
 'in Infix notation! Split the elements with spaces.')
 const infixExpArray = infixExpString.split(' ')
 
-// TODO FIXME: algorithm don't work!
-// const infixExpString = prompt('Please enter a math expression' +
-// 'in Infix notation! Split the elements with spaces.')
-// const infixExpArray = infixExpString.split(' ')
-
 console.log(infixExpArray)
 
 
@@ -328,4 +323,3 @@ let postfixExpArray = infixExpArray.map(Sorting)
 .concat(operatorStack.reverse())
 
 console.log(postfixExpArray)
-
