@@ -1,3 +1,3 @@
-# Calculator based on Polish Reversed notation
+# Converter (infix notation -> postfix notation) + Calculator based on Polish Reverse notation
 _______________________________________________
-stack machine algorithm
+shuntingYardAlgorithm + stack machine algorithm

@@ -1,0 +1,124 @@
+/** shuntingYardAlgorithm 
+ * a method for parsing mathematical expressions
+ * specified in infix notation and 
+ * converting them to postfix notation (RPN)
+*/
+
+/* DOCUMENTATION:
+
+_ALGORITHM_:
+
+1. The input INFIX_EXPRESSION is processed one ELEMENT at a time
+2. ELEMENT is checked for CONDITIONS
+3. CONDITIONS pushes Number ELEMENT on OUTPUT or
+pushes Operator ELEMENT on OPERATOR_STACK and/or
+remove Operator(s) from OPERATOR_STACK to OUTPUT
+4. INFIX_EXPRESSION is mapped(transformed) to OUTPUT array
+5. At the end of processing INFIX_EXPRESSION ALGORITHM 
+pop all Operators off the OPERATOR_STACK and onto the OUTPUT
+and returns the result as POSTFIX_EXPRESSION array
+
+_PARAMETERS_:
+Operators {Array} - [i1 ... in] =
+[{name: '+', priority: '2'},
+ {name: '-', priority: '2'},
+ {name: '*', priority: '3'},
+ {name: '/', priority: '3'},
+ {name: '^', priority: '4'},
+ {name: '(', priority: '1'},
+ {name: ')', priority: '1'}]
+INFIX_EXPRESSION {Array} - contains Numbers and Operators ELEMENTS
+OPERATOR_STACK {Array} - accumulate operators with lower PRIORITY
+OUTPUT {Array} - accumulate ELEMENTS in order of POSTFIX_EXPRESSION
+
+_RETURNS_:
+
+POSTFIX_EXPRESSION {Array}
+
+_CONDITIONS_:
+
+If the ELEMENT is a Number {
+  it pushed to the OUTPUT 
+}
+If the ELEMENT is '(' {
+  ELEMENT push to OPERATOR_STACK
+  return no output
+}
+If the ELEMENT is ')' {
+  pop all Operators off the OPERATOR_STACK and onto the OUTPUT until '('
+  delete '(' from OPERATOR_STACK
+  return OUTPUT
+}
+If the ELEMENT == Operator[i].name {
+  let REPEAT_Cycle_1 = true
+  Circle_1(REPEAT_Cycle_1)
+    {function_checkPriority}
+  ELEMENT push to OPERATOR_STACK }
+
+At the end of reading INFIX_EXPRESSION {
+  pop all Operators off the OPERATOR_STACK and onto the OUTPUT
+  return OUTPUT 
+}
+
+_FUNCTIONS_:
+
+function_checkPriority (  ) {
+  function_getElementPriority
+  function_getLastInStackPriority
+  if ELEMENT_PRIORITY <= LAST_IN_OPERATOR_STACK_PRIORITY {
+    LAST_IN_OPERATOR_STACK is removed from OPERATOR_STACK to the OUTPUT
+  } else REPEAT_Circle_1 = false 
+}
+*/
+
+
+
+/** stackMachineAlgorithm 
+ * a method for parsing mathematical expressions
+ * specified in postfix notation (RPN) and
+ * calculate those mathematical expressions
+*/
+
+/* DOCUMENTATION:
+
+_ALGORITHM_:
+
+1. The input POSTFIX_EXPRESSION is processed one ELEMENT at a time
+2. ELEMENT is checked for CONDITIONS
+3. CONDITIONS pushes Number ELEMENT on STACK or
+uses Operator ELEMENT to operate with Numbers on STACK
+4. STACK is reduced to one element
+5. ALGORITHM returns RESULT of POSTFIX_EXPRESSION
+
+_PARAMETERS_:
+
+Operators {Array} - [i1 ... in] = ['+', '-', '*', '/', '^']
+POSTFIX_EXPRESSION {Array} - contains Numbers and Operators ELEMENTS
+STACK {Array} - accumulate Numbers or results of Operations with them
+
+_RETURNS_:
+
+RESULT of POSTFIX_EXPRESSION {Number} = STACK[0]
+
+_CONDITIONS_:
+
+If the ELEMENT is a Number {
+  it pushed to the STACK 
+}
+If the ELEMENT == operator[i] {
+  function_0 
+}
+At the end of reading {
+  Return RESULT of the EXPRESSION = STACK[0] 
+}
+
+_FUNCTIONS_:
+
+function_0 ( function_[i] ) {
+  Replace 2 numbers (num1, num2) on the STACK 
+  with function_[i] 
+}
+function_[i] (num1, num2) {
+  return result of the math operation[i] with 2 nums 
+}
+*/
